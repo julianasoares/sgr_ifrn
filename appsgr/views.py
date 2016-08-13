@@ -15,7 +15,7 @@ def home(request):
 def requerimento_list(request):
     criterio=request.GET.get('criterio')
     if (criterio):
-        requerimento=Requerimento.objects.filter(descricao__contains=criterio).order_by('descricao')
+        requerimento=Requerimento.objects.filter(descricao__contains=criterio).order_by('tipo_requerimento','-data_solicitacao_requerimento')
     else:
         requerimento=Requerimento.objects.all().order_by('descricao')
         criterio=""
