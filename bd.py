@@ -42,7 +42,3 @@ cur1.save()
 
 al1=Aluno(nome='Luan Medeiros Macena',cpf='11122233345',email='luan@luan.com',data_nascimento='1992-02-22',matricula='20142148000001', permissao=per1, telefone='84988887777', senha='123456', curso=cur1)
 al1.save()
-
-#TEstando requerimento
-req = Requerimento()
-req.save()
