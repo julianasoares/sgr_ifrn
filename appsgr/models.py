@@ -40,12 +40,14 @@ class Pessoa(models.Model):
     senha = models.CharField("Matrícula", max_length=15, null=False)
 
 #Modelo coordenador
-class Coordenador(Pessoa):
+class Coordenador(models.Model):
+    pessoa = models.ForeignKey(Pessoa, on_delete=models.PROTECT, verbose_name="Pessoa", null=False, primary_key=True)
     permissao = models.ForeignKey(Permissao, on_delete=models.PROTECT, verbose_name="Permissao")
     ativo = models.BooleanField("Coordenador Ativo", null=False, default=True)
 
 #Modelo diretor
-class Diretor(Pessoa):
+class Diretor(models.Model):
+    pessoa = models.ForeignKey(Pessoa, on_delete=models.PROTECT, verbose_name="Pessoa", null=False, primary_key=True)
     permissao = models.ForeignKey(Permissao, on_delete=models.PROTECT, verbose_name="Permissao")
     ativo = models.BooleanField("Diretor Ativo", null=False, default=True)
 
@@ -55,6 +57,20 @@ class DiretorCampus(models.Model):
     campus = models.ForeignKey(Campus, on_delete=models.PROTECT, verbose_name="Campus")
     class Meta:
         unique_together = ('diretor',)
+
+
+
+#Modelo professor
+class Professor(models.Model):
+    pessoa = models.ForeignKey(Pessoa, on_delete=models.PROTECT, verbose_name="Pessoa", null=False, primary_key=True)
+    permissao = models.ForeignKey(Permissao, on_delete=models.PROTECT, verbose_name="Permissao")
+    ativo = models.BooleanField("Professor Ativo", null=False, default=True)
+
+#Modelo disciplina
+class Disciplina(models.Model):
+    nome = models.CharField("Nome", max_length=50, null=False)
+    ativa = models.BooleanField("Disciplina Ativa", null=False, default=True)
+    professores= models.ManyToManyField(Professor)
 
 #Modelo curso
 class Curso(models.Model):
@@ -66,8 +82,9 @@ class Curso(models.Model):
     turno = models.ForeignKey(Turno, on_delete=models.PROTECT, verbose_name="Turno")
     campus = models.ForeignKey(Campus, on_delete=models.PROTECT, verbose_name="Modalidade")
     coordenador = models.ForeignKey(Coordenador, on_delete=models.PROTECT, verbose_name="Coordenador")
-    class Meta:
-       unique_together = (('nome', 'modalidade', 'turno','campus'),)
+    disciplinas = models.ManyToManyField(Disciplina)
+
+
 
 #Modelo aluno
 class Aluno(Pessoa):
@@ -80,21 +97,9 @@ class Turma(models.Model):
     curso = models.ForeignKey(Curso, on_delete=models.PROTECT, verbose_name="Curso")
     alunos = models.ManyToManyField(Aluno)
 
-
-#Modelo professor
-class Professor(Pessoa):
-    permissao = models.ForeignKey(Permissao, on_delete=models.PROTECT, verbose_name="Permissao")
-    ativo = models.BooleanField("Professor Ativo", null=False, default=True)
-
-#Modelo disciplina
-class Disciplina(models.Model):
-    nome = models.CharField("Nome", max_length=50, null=False)
-    ativa = models.BooleanField("Disciplina Ativa", null=False, default=True)
-    curso = models.ForeignKey(Curso, on_delete=models.PROTECT, verbose_name="Curso")
-    professores= models.ManyToManyField(Professor)
-
 #Modelo tecnico administrativo
-class Tecnico_Administrativo(Pessoa):
+class Tecnico_Administrativo(models.Model):
+    pessoa = models.ForeignKey(Pessoa, on_delete=models.PROTECT, verbose_name="Pessoa", null=False, primary_key=True)
     permissao = models.ForeignKey(Permissao, on_delete=models.PROTECT, verbose_name="Permissao")
 
 #Modelo documento
@@ -104,6 +109,10 @@ class Documento(models.Model):
 #Modelo tipo requerimento
 class Tipo_Requerimento(models.Model):
     nome = models.CharField("Nome", max_length=100, null=False)
+
+
+def aluno_directory_path(instance, filename):
+    return 'func_{0}/{1}'.format(instance.matricula, filename)
 
 #Modelo requerimento
 class Requerimento(models.Model):
@@ -140,5 +149,9 @@ class Requerimento(models.Model):
     tranferencia_curso_destino = models.CharField("Curso de destino", max_length=50, null=True)
     apto_avaliacao = models.NullBooleanField("Apto para avalição")
     disciplina_certificacao = models.ForeignKey(Disciplina, on_delete=models.PROTECT, related_name="Disciplina_Certificação", null=True)
-    documento = models.ManyToManyField(Documento)
+    documentos_apresentados = models.ManyToManyField(Documento)
+    documentos_files = models.FileField(upload_to=aluno_directory_path,default="null")
+
+
+
 
