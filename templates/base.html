@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Sistema de Vendas</title>
+    <!-- A ordem de carregamento interfere no funcionamento da aplicação. -->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://code.jquery.com/ui/1.12.0/themes/base/jquery-ui.css" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-2.2.4.js"></script>
+     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+     <script src="https://code.jquery.com/ui/1.12.0/jquery-ui.js"></script>
+    <script src="https://raw.githubusercontent.com/jquery/jquery-ui/master/ui/i18n/datepicker-pt-BR.js" type="javascript"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
+    {% load staticfiles %}
+    <script src="{% static 'jquery-formset/jquery.formset.js' %}" type="javascript"></script>
+</head>
+<body>
+    <h2>Sistema de Requerimentos</h2>
+    <nav>
+        <a href="{% url 'requerimento_list' %}"> Requerimentos </a>
+    </nav>
+
+    {% block conteudo %}
+        <h3>Bem vindo ao sistema de Sistema de Requerimentos</h3>
+    {% endblock %}
+</body>
+</html>
