@@ -170,8 +170,6 @@ class Requerimento(models.Model):
     observacoes = models.TextField("Observações", blank=True, null=True)
     data_realizacao_certificacao=models.DateField("Data da realização da certificação", null=True, blank=True)
     encaminhamentos = models.TextField("Encaminhamentos", null=True ,blank=True)
-    mudanca_de = models.CharField("De", max_length=100, null=True)
-    mudanca_para = models.CharField("Para", max_length=100, null=True)
     data_faltas_de = models.DateField("Faltas de", null=True, blank=True)
     data_faltas_ate = models.DateField("Faltas até", null=True, blank=True)
     data_falta_dia = models.DateField("Faltas dia", null=True, blank=True)
@@ -196,10 +194,11 @@ class Requerimento(models.Model):
     apto_avaliacao = models.NullBooleanField("Apto para avalição")
     disciplina_certificacao = models.ForeignKey(Disciplina, on_delete=models.PROTECT, related_name="Disciplina_Certificação", null=True)
     documentos_apresentados = models.ManyToManyField(Documento)
-    documentos_files = models.FileField(upload_to=aluno_directory_path,default="null")
+    documentos_files = models.FileField(upload_to=aluno_directory_path,default="null", null=True)
     tecnico_responsavel = models.ForeignKey(Tecnico_Administrativo,on_delete=models.PROTECT, related_name="Tecnico_Responsavel", null=True)
 
-    def __str__(self):
+
+def __str__(self):
         return self.id
 
 

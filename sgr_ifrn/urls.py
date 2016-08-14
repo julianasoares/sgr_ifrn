@@ -15,8 +15,11 @@ Including another URLconf
 """
 from django.conf.urls import url,patterns,include
 from django.contrib import admin
+from sgr_ifrn.settings import MEDIA_ROOT
+
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
+    url(r'^media/(?P<path>.*)$','django.views.static.serve', {'document_root': MEDIA_ROOT,}),
     url(r'^appsgr/',include('appsgr.urls'))
 ]
