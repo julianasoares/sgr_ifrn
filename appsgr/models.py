@@ -10,15 +10,26 @@ class Campus(models.Model):
     numero = models.IntegerField("Número", null=False)
     telefone = models.CharField("Telefone", max_length=11, null=False)
 
+    def __str__(self):
+        return self.nome
+
 
 #Modelo modalidades de curso
 class ModalidadeCurso(models.Model):
     nome = models.CharField("Nome", max_length=50, null=False)
     nivel = models.CharField("Nível", max_length=50, null=False)
 
+    def __str__(self):
+        return self.nome
+
+
 #Modelo turno
 class Turno(models.Model):
     nome = models.CharField("Nome", max_length=50, null=False)
+
+    def __str__(self):
+        return self.nome
+
 
 
 #Modelo realcao professor com disciplina
@@ -28,6 +39,10 @@ class ProfessorDisciplina(models.Model):
 #Modelo permissao
 class Permissao(models.Model):
     nome = models.CharField("Permissao", max_length=50, null=False)
+
+    def __str__(self):
+        return self.nome
+
 
 #Modelo pessoa
 class Pessoa(models.Model):
@@ -45,11 +60,18 @@ class Coordenador(models.Model):
     permissao = models.ForeignKey(Permissao, on_delete=models.PROTECT, verbose_name="Permissao")
     ativo = models.BooleanField("Coordenador Ativo", null=False, default=True)
 
+    def __str__(self):
+        return self.pessoa.nome
+
+
 #Modelo diretor
 class Diretor(models.Model):
     pessoa = models.ForeignKey(Pessoa, on_delete=models.PROTECT, verbose_name="Pessoa", null=False, primary_key=True)
     permissao = models.ForeignKey(Permissao, on_delete=models.PROTECT, verbose_name="Permissao")
     ativo = models.BooleanField("Diretor Ativo", null=False, default=True)
+
+    def __str__(self):
+        return self.pessoa.nome
 
 #Modelo relação diretor com campus
 class DiretorCampus(models.Model):
@@ -59,18 +81,23 @@ class DiretorCampus(models.Model):
         unique_together = ('diretor',)
 
 
-
 #Modelo professor
 class Professor(models.Model):
     pessoa = models.ForeignKey(Pessoa, on_delete=models.PROTECT, verbose_name="Pessoa", null=False, primary_key=True)
     permissao = models.ForeignKey(Permissao, on_delete=models.PROTECT, verbose_name="Permissao")
     ativo = models.BooleanField("Professor Ativo", null=False, default=True)
 
+    def __str__(self):
+        return self.pessoa.nome
+
 #Modelo disciplina
 class Disciplina(models.Model):
     nome = models.CharField("Nome", max_length=50, null=False)
     ativa = models.BooleanField("Disciplina Ativa", null=False, default=True)
     professores= models.ManyToManyField(Professor)
+
+    def __str__(self):
+        return self.nome
 
 #Modelo curso
 class Curso(models.Model):
@@ -84,6 +111,9 @@ class Curso(models.Model):
     coordenador = models.ForeignKey(Coordenador, on_delete=models.PROTECT, verbose_name="Coordenador")
     disciplinas = models.ManyToManyField(Disciplina)
 
+    def __str__(self):
+        return self.nome+' - Campus: '+self.campus.nome
+
 
 
 #Modelo aluno
@@ -91,24 +121,40 @@ class Aluno(Pessoa):
     curso = models.ForeignKey(Curso, on_delete=models.PROTECT, verbose_name="Curso")
     permissao = models.ForeignKey(Permissao, on_delete=models.PROTECT, verbose_name="Permissao")
 
+    def __str__(self):
+        return self.nome
+
+
 #Modelo turma
 class Turma(models.Model):
     nome = models.CharField("Nome", max_length=50, null=False)
     curso = models.ForeignKey(Curso, on_delete=models.PROTECT, verbose_name="Curso")
     alunos = models.ManyToManyField(Aluno)
 
+    def __str__(self):
+        return self.nome
+
 #Modelo tecnico administrativo
 class Tecnico_Administrativo(models.Model):
     pessoa = models.ForeignKey(Pessoa, on_delete=models.PROTECT, verbose_name="Pessoa", null=False, primary_key=True)
     permissao = models.ForeignKey(Permissao, on_delete=models.PROTECT, verbose_name="Permissao")
 
+    def __str__(self):
+        return self.pessoa.nome
+
 #Modelo documento
 class Documento(models.Model):
     nome = models.CharField("Nome", max_length=100, null=False)
 
+    def __str__(self):
+        return self.nome
+
 #Modelo tipo requerimento
 class Tipo_Requerimento(models.Model):
     nome = models.CharField("Nome", max_length=100, null=False)
+
+    def __str__(self):
+        return self.nome
 
 
 def aluno_directory_path(instance, filename):
@@ -151,6 +197,11 @@ class Requerimento(models.Model):
     disciplina_certificacao = models.ForeignKey(Disciplina, on_delete=models.PROTECT, related_name="Disciplina_Certificação", null=True)
     documentos_apresentados = models.ManyToManyField(Documento)
     documentos_files = models.FileField(upload_to=aluno_directory_path,default="null")
+    tecnico_responsavel = models.ForeignKey(Tecnico_Administrativo,on_delete=models.PROTECT, related_name="Tecnico_Responsavel", null=True)
+
+    def __str__(self):
+        return self.id
+
 
 
 

@@ -6,7 +6,7 @@
      </h1>
         <form method="POST" role="form">
         {% csrf_token %}
-        {{ form.as_table }}
+        {{ form.as_p }}
         <input type="submit" class="btn btn-primary" value="Salvar">
         </form>
 

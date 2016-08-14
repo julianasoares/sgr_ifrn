@@ -17,8 +17,8 @@
     {% for requerimento in requerimento %}
         <tr>
             <td>{{ requerimento.tipo_requerimento }}</td>
-            <td><a href="{% url 'produto_update' produto.pk %}" class="btn btn-primary">Atualizar</a> </td>
-            <td><a href="{% url 'produto_delete' produto.pk %}" class="btn btn-danger">Excluir</a> </td>
+            <td><a href="{% url 'requerimento_update' requerimento.pk %}" class="btn btn-primary">Atualizar</a> </td>
+            <td><a href="{% url 'requerimento_delete' requerimento.pk %}" class="btn btn-danger">Excluir</a> </td>
 
         </tr>
     {% endfor %}
