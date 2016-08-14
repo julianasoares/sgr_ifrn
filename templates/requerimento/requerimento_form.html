@@ -1,12 +1,17 @@
 {% extends 'base.html' %}
 {% block conteudo %}
+    {% load widget_tweaks %}
      <h1 style="margin: 30px">{% if requerimento %}
          Editar Requerimento{% else %}
          Criar Requerimento{% endif%}
      </h1>
         <form method="POST" role="form">
         {% csrf_token %}
-        {{ form.as_p }}
+            <form method="POST" role="form" class="form-group">
+        {% for field in form %}
+            <p><h4><span class="label label-default" for="{{field.name}}">{{ field.name.upper}}</span></h4>
+            {{field |add_class:'form-control'}}
+        {% endfor %}
         <input type="submit" class="btn btn-primary" value="Salvar">
         </form>
 

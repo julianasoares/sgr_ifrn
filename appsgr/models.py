@@ -197,9 +197,8 @@ class Requerimento(models.Model):
     documentos_files = models.FileField(upload_to=aluno_directory_path,default="null", null=True)
     tecnico_responsavel = models.ForeignKey(Tecnico_Administrativo,on_delete=models.PROTECT, related_name="Tecnico_Responsavel", null=True)
 
-
-def __str__(self):
-        return self.id
+    def __str__(self):
+            return self.id
 
 
 
