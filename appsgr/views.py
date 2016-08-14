@@ -17,7 +17,7 @@ def requerimento_list(request):
     if (criterio):
         requerimento=Requerimento.objects.filter(descricao__contains=criterio).order_by('tipo_requerimento','-data_solicitacao_requerimento')
     else:
-        requerimento=Requerimento.objects.all().order_by('descricao')
+        requerimento=Requerimento.objects.all().order_by('tipo_requerimento','-data_solicitacao_requerimento')
         criterio=""
     #Cria o mecanimos de paginação
     paginator=Paginator(requerimento,10)
@@ -53,7 +53,7 @@ def requerimento_update(request,pk):
         form=RequerimentoForm(request.POST,instance=requerimento)
         if (form.is_valid()):
             form.save()
-            return redirect('unidade_list')
+            return redirect('requerimento_list')
     else:
         form=RequerimentoForm(instance=requerimento)
         dados={'form':form,'requerimento':requerimento}
