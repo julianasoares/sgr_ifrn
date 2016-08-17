@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.auth.models import User, Group
 
 
 #Modelo campus
@@ -36,28 +37,17 @@ class Turno(models.Model):
 class ProfessorDisciplina(models.Model):
     relacao_ativa = models.BooleanField("Professor ativo na disciplina", null=False, default=True)
 
-#Modelo permissao
-class Permissao(models.Model):
-    nome = models.CharField("Permissao", max_length=50, null=False)
-
-    def __str__(self):
-        return self.nome
-
 
 #Modelo pessoa
-class Pessoa(models.Model):
-    nome = models.CharField("Nome", max_length=250, null=False)
+class Pessoa(User):
     data_nascimento = models.DateField("Data de Nascimento", null=True, blank=True)
     cpf = models.CharField("CPF", max_length=14, unique=True, null=False)
-    email = models.EmailField("E-Mail", max_length=150, blank=True)
-    telefone = models.CharField("Telefone", max_length=11)
-    matricula = models.CharField("Matrícula", max_length=14, null=False, primary_key=True)
-    senha = models.CharField("Matrícula", max_length=15, null=False)
+    telefone = models.CharField("Telefone",max_length=11, blank=True, null=True)
+
 
 #Modelo coordenador
 class Coordenador(models.Model):
     pessoa = models.ForeignKey(Pessoa, on_delete=models.PROTECT, verbose_name="Pessoa", null=False, primary_key=True)
-    permissao = models.ForeignKey(Permissao, on_delete=models.PROTECT, verbose_name="Permissao")
     ativo = models.BooleanField("Coordenador Ativo", null=False, default=True)
 
     def __str__(self):
@@ -67,7 +57,6 @@ class Coordenador(models.Model):
 #Modelo diretor
 class Diretor(models.Model):
     pessoa = models.ForeignKey(Pessoa, on_delete=models.PROTECT, verbose_name="Pessoa", null=False, primary_key=True)
-    permissao = models.ForeignKey(Permissao, on_delete=models.PROTECT, verbose_name="Permissao")
     ativo = models.BooleanField("Diretor Ativo", null=False, default=True)
 
     def __str__(self):
@@ -84,7 +73,6 @@ class DiretorCampus(models.Model):
 #Modelo professor
 class Professor(models.Model):
     pessoa = models.ForeignKey(Pessoa, on_delete=models.PROTECT, verbose_name="Pessoa", null=False, primary_key=True)
-    permissao = models.ForeignKey(Permissao, on_delete=models.PROTECT, verbose_name="Permissao")
     ativo = models.BooleanField("Professor Ativo", null=False, default=True)
 
     def __str__(self):
@@ -115,11 +103,9 @@ class Curso(models.Model):
         return self.nome+' - Campus: '+self.campus.nome
 
 
-
 #Modelo aluno
 class Aluno(Pessoa):
     curso = models.ForeignKey(Curso, on_delete=models.PROTECT, verbose_name="Curso")
-    permissao = models.ForeignKey(Permissao, on_delete=models.PROTECT, verbose_name="Permissao")
 
     def __str__(self):
         return self.nome
@@ -137,7 +123,6 @@ class Turma(models.Model):
 #Modelo tecnico administrativo
 class Tecnico_Administrativo(models.Model):
     pessoa = models.ForeignKey(Pessoa, on_delete=models.PROTECT, verbose_name="Pessoa", null=False, primary_key=True)
-    permissao = models.ForeignKey(Permissao, on_delete=models.PROTECT, verbose_name="Permissao")
 
     def __str__(self):
         return self.pessoa.nome

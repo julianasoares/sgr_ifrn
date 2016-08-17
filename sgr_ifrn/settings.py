@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'appsgr',
     'widget_tweaks',
+
 ]
 
 MIDDLEWARE_CLASSES = [
