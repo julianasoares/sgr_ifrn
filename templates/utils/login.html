@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Login - AppVendas</title>
+</head>
+<body>
+    <h2>Login</h2>
+    <form action="{% url 'login' %}" method="post">
+        {% csrf_token %}
+          {{ form.as_p }}
+        <input type="submit" value="Entrar">
+    </form>
+</body>
+</html>
