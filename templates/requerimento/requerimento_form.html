@@ -5,13 +5,14 @@
          Editar Requerimento{% else %}
          Criar Requerimento{% endif%}
      </h1>
-        <form method="POST" role="form">
-        {% csrf_token %}
+
             <form method="POST" role="form" class="form-group">
-        {% for field in form %}
-            <p><h4><span class="label label-default" for="{{field.name}}">{{ field.name.upper}}</span></h4>
-            {{field |add_class:'form-control'}}
-        {% endfor %}
+                {% csrf_token %}
+            {% for field in form %}
+                {{ field.errors }}
+                <p><h4><span class="label label-default" for="{{field.name}}">{{ field.name.upper}}</span></h4></p>
+                {{field |add_class:'form-control'}}
+            {% endfor %}
         <input type="submit" class="btn btn-primary" value="Salvar">
         </form>
 

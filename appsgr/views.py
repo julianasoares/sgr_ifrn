@@ -7,11 +7,18 @@ from django.forms import formset_factory
 from django.http.request import QueryDict
 from django.contrib import messages
 from appsgr.models import *
+from django.contrib.auth.decorators import login_required,permission_required
 # Create your views here..
 
+@login_required(login_url='login')
 def home(request):
     return render(request,'base.html')
 
+@login_required(login_url='login')
+def erro_permissao(request):
+    return render(request,'utils/permissao.html')
+
+@permission_required('appsgr.view_requerimento',login_url='erro_permissao')
 def requerimento_list(request):
     criterio=request.GET.get('criterio')
     if (criterio):
@@ -44,8 +51,8 @@ def requerimento_new(request):
             return redirect('requerimento_list')
     else:
         form=RequerimentoForm()
-        dados={'form':form}
-        return render(request, 'requerimento/requerimento_form.html', dados)
+    dados={'form':form}
+    return render(request, 'requerimento/requerimento_form.html', dados)
 
 def requerimento_update(request,pk):
     requerimento=Requerimento.objects.get(id=pk)
@@ -56,8 +63,8 @@ def requerimento_update(request,pk):
             return redirect('requerimento_list')
     else:
         form=RequerimentoForm(instance=requerimento)
-        dados={'form':form,'requerimento':requerimento}
-        return render(request, 'requerimento/requerimento_form.html', dados)
+    dados={'form':form,'requerimento':requerimento}
+    return render(request, 'requerimento/requerimento_form.html', dados)
 
 def requerimento_delete(request,pk):
     requerimento=Requerimento.objects.get(id=pk)
