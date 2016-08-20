@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 {% block conteudo %}
-    <h2>Produtos</h2>
+    <h2>Requerimentos</h2>
     <p><a href="{% url 'requerimento_new' %}" class="btn btn-primary" >Criar Novo Requerimento</a></p>
     <form class="navbar-form navbar-left" role="search" method="get" action="{% url 'requerimento_list' %}">
       <div class="form-group">
@@ -16,7 +16,7 @@
   </tr>
     {% for requerimento in requerimento %}
         <tr>
-            <td>{{ requerimento.tipo_requerimento }}</td>
+            <td><a href="{% url 'requerimento_detail' requerimento.pk %}"> {{ requerimento.tipo_requerimento }}</a></td>
             <td><a href="{% url 'requerimento_update' requerimento.pk %}" class="btn btn-primary">Atualizar</a> </td>
             <td><a href="{% url 'requerimento_delete' requerimento.pk %}" class="btn btn-danger">Excluir</a> </td>
 

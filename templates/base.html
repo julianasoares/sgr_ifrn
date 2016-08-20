@@ -14,9 +14,12 @@
     {% load staticfiles %}
     <script src="{% static 'jquery-formset/jquery.formset.js' %}" type="javascript"></script>
 </head>
+
 <body>
     <h2>Sistema de Requerimentos</h2>
+    Usuário: {{ request.user.first_name }}
     <nav>
+        <a href="{% url 'home' %}"> Home </a>
         <a href="{% url 'requerimento_list' %}"> Requerimentos </a>
         <a href="{% url 'logout' %}">Sair</a>
     </nav>

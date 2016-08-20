@@ -37,12 +37,16 @@ class Turno(models.Model):
 class ProfessorDisciplina(models.Model):
     relacao_ativa = models.BooleanField("Professor ativo na disciplina", null=False, default=True)
 
+class Grupo(Group):
+        descricao = models.CharField("Grupo", max_length=20)
 
 #Modelo pessoa
 class Pessoa(User):
     data_nascimento = models.DateField("Data de Nascimento", null=True, blank=True)
     cpf = models.CharField("CPF", max_length=14, unique=True, null=False)
     telefone = models.CharField("Telefone",max_length=11, blank=True, null=True)
+    grupos = models.ManyToManyField(Grupo)
+
 
 
 #Modelo coordenador
@@ -188,7 +192,7 @@ class Requerimento(models.Model):
     def __str__(self):
             return self.id
     class Meta:
-        permissions = (("view_requerimento","Can see requerimento"),)
+        permissions = (("view_requerimento","Can see requerimento"),("detail_requerimento","Can see detail requerimento"),)
 
 
 

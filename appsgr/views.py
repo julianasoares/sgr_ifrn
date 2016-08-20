@@ -39,10 +39,12 @@ def requerimento_list(request):
     dados={'requerimento':requerimento,'criterio':criterio,'paginator':paginator,'page_obj':requerimento}
     return render(request, 'requerimento/requerimento_list.html', dados)
 
+@permission_required('appsgr.detail_requerimento',login_url='erro_permissao')
 def requerimento_detail(request, pk):
     requerimento=Requerimento.objects.get(id=pk)
     return render(request, 'requerimento/requerimento_detail.html', {'requerimento':requerimento})
 
+@permission_required('appsgr.new_requerimento',login_url='erro_permissao')
 def requerimento_new(request):
     if (request.method=="POST"):
         form=RequerimentoForm(request.POST)
@@ -54,6 +56,7 @@ def requerimento_new(request):
     dados={'form':form}
     return render(request, 'requerimento/requerimento_form.html', dados)
 
+@permission_required('appsgr.update_requerimento',login_url='erro_permissao')
 def requerimento_update(request,pk):
     requerimento=Requerimento.objects.get(id=pk)
     if (request.method=="POST"):
@@ -66,6 +69,7 @@ def requerimento_update(request,pk):
     dados={'form':form,'requerimento':requerimento}
     return render(request, 'requerimento/requerimento_form.html', dados)
 
+@permission_required('appsgr.delete_requerimento',login_url='erro_permissao')
 def requerimento_delete(request,pk):
     requerimento=Requerimento.objects.get(id=pk)
     try:
