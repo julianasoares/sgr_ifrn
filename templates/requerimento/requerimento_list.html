@@ -1,6 +1,16 @@
 {% extends 'base.html' %}
 {% block conteudo %}
     <h2>Requerimentos</h2>
+    <form method="GET" role="form" action="{% url 'requerimento_new' %}" class="form-group">
+
+        <select name="id_tipo_requerimento">
+            {% for field in tipo_requerimento %}
+                <option value="{{ field.id }}">{{ field.nome }}</option>
+            {% endfor %}
+        </select>
+        <input type="submit" class="btn btn-primary" value="Criar">
+    </form>
+
     <p><a href="{% url 'requerimento_new' %}" class="btn btn-primary" >Criar Novo Requerimento</a></p>
     <form class="navbar-form navbar-left" role="search" method="get" action="{% url 'requerimento_list' %}">
       <div class="form-group">

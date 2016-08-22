@@ -10,6 +10,7 @@ urlpatterns=[
     url(r'^requerimento/update/(?P<pk>\d+)$',requerimento_update,name='requerimento_update'),
     url(r'^requerimento/delete/(?P<pk>\d+)$',requerimento_delete,name='requerimento_delete'),
 
+
     url(r'^login/', login, {'template_name': 'utils/login.html'}, name='login'),
     url(r'^logout/$', logout, {'next_page': 'login'}, name='logout'),
     url(r'^erro_permissao/$', erro_permissao, name='erro_permissao'),

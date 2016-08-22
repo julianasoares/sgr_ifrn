@@ -163,7 +163,7 @@ class Requerimento(models.Model):
     encaminhamentos = models.TextField("Encaminhamentos", null=True ,blank=True)
     data_faltas_de = models.DateField("Faltas de", null=True, blank=True)
     data_faltas_ate = models.DateField("Faltas até", null=True, blank=True)
-    data_falta_dia = models.DateField("Faltas dia", null=True, blank=True)
+    data_falta_dia = models.DateField("Falta dia", null=True, blank=True)
     curso_origem = models.ForeignKey(Curso, on_delete=models.PROTECT, related_name="Curso_de_Origem", null=True, blank=True)
     curso_destino = models.ForeignKey(Curso, on_delete=models.PROTECT, related_name="Curso_de_Destino", null=True, blank=True)
     turma_origem = models.ForeignKey(Turma, on_delete=models.PROTECT, related_name="Turma_de_Origem", null=True, blank=True)
@@ -188,6 +188,7 @@ class Requerimento(models.Model):
     documentos_apresentados = models.ManyToManyField(Documento, null=True, blank=True)
     documentos_files = models.FileField(upload_to=aluno_directory_path,default="null", null=True)
     tecnico_responsavel = models.ForeignKey(Tecnico_Administrativo,on_delete=models.PROTECT, related_name="Tecnico_Responsavel", null=True, blank=True)
+    encaminhado_para = models.ForeignKey(Pessoa, on_delete=models.PROTECT, related_name="Avaliador", null=True, blank=True)
 
     def __str__(self):
             return self.id
