@@ -103,7 +103,7 @@ def requerimento_new(request):
         RequerimentoFormNovo=modelform_factory(Requerimento,fields=('tranferencia_escola_origem','tranferencia_escola_destino','tranferencia_curso_origem','tranferencia_curso_destino','observacoes','documentos_apresentados','documentos_files',))
 
     if (request.method=="POST"):
-        form=RequerimentoFormNovo(request.POST)
+        form=RequerimentoFormNovo(request.POST,request.FILES)
         if (form.is_valid()):
             requerimento=form.save(commit=False)
             requerimento.tipo_requerimento=Tipo_Requerimento.objects.get(id=id_tipo_requerimento)

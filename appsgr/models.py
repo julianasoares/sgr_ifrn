@@ -148,7 +148,7 @@ class Tipo_Requerimento(models.Model):
 
 
 def aluno_directory_path(instance, filename):
-    return 'func_{0}/{1}'.format(instance.matricula, filename)
+    return 'func_{0}/{1}'.format(instance.aluno.username, filename)
 
 #Modelo requerimento
 class Requerimento(models.Model):
