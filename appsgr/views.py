@@ -112,6 +112,15 @@ def requerimento_new(request):
             return redirect('requerimento_list')
     else:
         form=RequerimentoFormNovo()
+    if (id_tipo_requerimento=="13"):
+        curso=Aluno.objects.get(username=request.user.username).curso #Localiza qual o curso do aluno
+        #Modifica a propriedade queryset do campo curso_destino, para incluir cursos da mesma modalidade, porém diferente o curso atual
+        form.fields['curso_destino'].queryset=Curso.objects.filter(modalidade=curso.modalidade).exclude(pk=curso.pk)
+        '''
+            Referências para essa implementação
+            http://stackoverflow.com/questions/4880842/how-to-dynamically-set-the-queryset-of-a-models-modelchoicefield-on-a-forms-form
+            https://docs.djangoproject.com/pt-br/1.10/ref/models/querysets/#django.db.models.query.QuerySet.exclude
+        '''
     dados={'form':form}
     return render(request, 'requerimento/requerimento_form.html', dados)
 
