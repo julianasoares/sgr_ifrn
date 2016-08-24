@@ -127,6 +127,15 @@ def requerimento_new(request):
             http://stackoverflow.com/questions/4880842/how-to-dynamically-set-the-queryset-of-a-models-modelchoicefield-on-a-forms-form
             https://docs.djangoproject.com/pt-br/1.10/ref/models/querysets/#django.db.models.query.QuerySet.exclude
         '''
+    elif (id_tipo_requerimento=="14"):
+        aluno = Aluno.objects.get(username=request.user.username)
+        turma = aluno.turma
+        form.fields['turma_destino'].queryset=Turma.objects.filter(curso=aluno.curso).exclude(pk=turma.pk)
+    elif (id_tipo_requerimento=="15"):
+        aluno = Aluno.objects.get(username=request.user.username)
+        turmas = aluno.curso.turnos.exclude(pk=aluno.turma.turno.pk)
+        form.fields['turno_destino'].queryset=turmas
+
     dados={'form':form}
     return render(request, 'requerimento/requerimento_form.html', dados)
 

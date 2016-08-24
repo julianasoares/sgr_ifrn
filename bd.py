@@ -237,30 +237,52 @@ cur19.turnos.add(turn1, turn2, turn3)
 #Subsequente
 cur6=Curso(nome='Redes de Computadores', coordenador=cor4, ativo=True, campus=cam1, anos=2, modalidade=mod2, periodos=4)
 cur6.save()
+cur6.turnos.add(turn1, turn2, turn3)
+
 cur7=Curso(nome='Mecatronica', coordenador=cor3, ativo=True, campus=cam1, anos=2, modalidade=mod2, periodos=4)
 cur7.save()
+cur7.turnos.add(turn1, turn2, turn3)
+
 cur8=Curso(nome='Edificações', coordenador=cor9, ativo=True, campus=cam1, anos=2, modalidade=mod2, periodos=4)
 cur8.save()
+cur8.turnos.add(turn1, turn2, turn3)
+
 cur9=Curso(nome='Energias Renováveis', coordenador=cor8, ativo=True, campus=cam1, anos=2, modalidade=mod2, periodos=4)
 cur9.save()
+cur9.turnos.add(turn1, turn2, turn3)
+
 cur10=Curso(nome='Petróleo e Gás', coordenador=cor7, ativo=True, campus=cam1, anos=2, modalidade=mod2, periodos=4)
 cur10.save()
+cur10.turnos.add(turn1, turn2, turn3)
 
 #Integrado
 cur11=Curso(nome='Informática', coordenador=cor2, ativo=True, campus=cam1, anos=4, modalidade=mod3, periodos=0)
 cur11.save()
+cur11.turnos.add(turn1, turn2)
+
 cur12=Curso(nome='Mecânica', coordenador=cor4, ativo=True, campus=cam1, anos=4, modalidade=mod3, periodos=0)
 cur12.save()
+cur12.turnos.add(turn1, turn2)
+
 cur13=Curso(nome='Mecatrônica', coordenador=cor3, ativo=True, campus=cam1, anos=4, modalidade=mod3, periodos=0)
 cur13.save()
+cur13.turnos.add(turn1, turn2)
+
 cur14=Curso(nome='Edificações', coordenador=cor5, ativo=True, campus=cam1, anos=4, modalidade=mod3, periodos=0)
 cur14.save()
+cur14.turnos.add(turn1, turn2)
+
 cur15=Curso(nome='Mineração', coordenador=cor6, ativo=True, campus=cam1, anos=4, modalidade=mod3, periodos=0)
 cur15.save()
+cur15.turnos.add(turn1, turn2)
+
 cur16=Curso(nome='Informática', coordenador=cor2, ativo=True, campus=cam1, anos=4, modalidade=mod3, periodos=0)
 cur16.save()
+cur16.turnos.add(turn1, turn2)
+
 cur17=Curso(nome='Mecatrônica', coordenador=cor3, ativo=True, campus=cam1, anos=4, modalidade=mod3, periodos=0)
 cur17.save()
+cur17.turnos.add(turn1, turn2)
 
 #Técnicos
 tec1=Tecnico_Administrativo(pessoa=pes19)
@@ -268,50 +290,48 @@ tec1.save()
 tec2=Tecnico_Administrativo(pessoa=pes20)
 tec2.save()
 
+#Criando turmas de sistemas para internet
+turma1= Turma(nome="2014.2",curso=cur1, turno=turn1)
+turma1.save()
 
+
+turma2 = Turma(nome="2015.1", curso=cur1, turno=turn1)
+turma2.save()
 
 #Alunos
-al1=Aluno(first_name='Luan Medeiros',last_name="Macena", cpf='77788818001',email='luan@gmail.com',data_nascimento="1992-02-22",username='20142144060201',telefone='84955186660', curso=cur1)
+al1=Aluno(first_name='Luan Medeiros',last_name="Macena", cpf='77788818001',email='luan@gmail.com',data_nascimento="1992-02-22",username='20142144060201',telefone='84955186660', curso=cur1, turma=turma1)
 al1.set_password('123456')
 al1.save()
 alunos.user_set.add(al1)
-al2=Aluno(first_name='Carlos Henrique', last_name="Pires", cpf='77788818002',email='carlos@gmail.com',data_nascimento="1990-05-30",username='20142144060202',telefone='84954956660', curso=cur1)
+al2=Aluno(first_name='Carlos Henrique', last_name="Pires", cpf='77788818002',email='carlos@gmail.com',data_nascimento="1990-05-30",username='20142144060202',telefone='84954956660', curso=cur1, turma=turma1)
 al2.set_password('123456')
 al2.save()
 alunos.user_set.add(al2)
-al3=Aluno(first_name='Juliana Soares', last_name="dos Anjos", cpf='77788818003',email='juliana@gmail.com',data_nascimento="1995-04-08",username='20142144060203',telefone='84955266660', curso=cur1)
+al3=Aluno(first_name='Juliana Soares', last_name="dos Anjos", cpf='77788818003',email='juliana@gmail.com',data_nascimento="1995-04-08",username='20142144060203',telefone='84955266660', curso=cur1, turma=turma1)
 al3.set_password('123456')
 al3.save()
 alunos.user_set.add(al3)
-al4=Aluno(first_name='Matheus Barbosa', last_name="de Farias", cpf='77788818004',email='matheus@gmail.com',data_nascimento="1994-06-14",username='20142144060204',telefone='84955557160', curso=cur1)
+al4=Aluno(first_name='Matheus Barbosa', last_name="de Farias", cpf='77788818004',email='matheus@gmail.com',data_nascimento="1994-06-14",username='20142144060204',telefone='84955557160', curso=cur1, turma=turma2)
 al4.set_password('123456')
 al4.save()
 alunos.user_set.add(al4)
-al5=Aluno(first_name='Hallesandro', last_name="Dvilla", cpf='77788818005',email='hallesandro@gmail.com',data_nascimento="1995-03-30",username='20142144060205',telefone='84955166660', curso=cur1)
+al5=Aluno(first_name='Hallesandro', last_name="Dvilla", cpf='77788818005',email='hallesandro@gmail.com',data_nascimento="1995-03-30",username='20142144060205',telefone='84955166660', curso=cur1, turma=turma2)
 al5.set_password('123456')
 al5.save()
 alunos.user_set.add(al5)
-al6=Aluno(first_name='Ednilson', last_name="Palhares", cpf='77788818006',email='ednilson@gmail.com',data_nascimento="1992-09-21",username='20142144060206',telefone='84905556660', curso=cur1)
+al6=Aluno(first_name='Ednilson', last_name="Palhares", cpf='77788818006',email='ednilson@gmail.com',data_nascimento="1992-09-21",username='20142144060206',telefone='84905556660', curso=cur1, turma=turma2)
 al6.set_password('123456')
 al6.save()
 alunos.user_set.add(al6)
-al7=Aluno(first_name='Wellignton', last_name="Ferreira", cpf='77788818007',email='wellignton@gmail.com',data_nascimento="1994-04-13",username='20142144060207',telefone='84959556660', curso=cur1)
+al7=Aluno(first_name='Wellignton', last_name="Ferreira", cpf='77788818007',email='wellignton@gmail.com',data_nascimento="1994-04-13",username='20142144060207',telefone='84959556660', curso=cur1, turma=turma1)
 al7.set_password('123456')
 al7.save()
 alunos.user_set.add(al7)
-al8=Aluno(first_name='Monic Laura', last_name="", cpf='77788818008',email='monic@gmail.com',data_nascimento="1993-06-30",username='20142144060208',telefone='84955555660', curso=cur1)
+al8=Aluno(first_name='Monic Laura', last_name="", cpf='77788818008',email='monic@gmail.com',data_nascimento="1993-06-30",username='20142144060208',telefone='84955555660', curso=cur1, turma=turma1)
 al8.set_password('123456')
 al8.save()
 alunos.user_set.add(al8)
 
-#Criando turmas de sistemas para internet
-turma1= Turma(nome="2014.2",curso=cur1)
-turma1.save()
-turma1.alunos.add(al1,al2,al3,al4,al5)
-
-turma2 = Turma(nome="2015.1", curso=cur1)
-turma2.save()
-turma2.alunos.add(al6,al7,al8)
 
 
 #Tipos de requerimentos

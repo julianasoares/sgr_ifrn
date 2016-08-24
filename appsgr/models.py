@@ -106,23 +106,24 @@ class Curso(models.Model):
     def __str__(self):
         return self.nome+' - Campus: '+self.campus.nome
 
-
-#Modelo aluno
-class Aluno(Pessoa):
-    curso = models.ForeignKey(Curso, on_delete=models.PROTECT, verbose_name="Curso")
-
-    def __str__(self):
-        return self.first_name
-
-
 #Modelo turma
 class Turma(models.Model):
     nome = models.CharField("Nome", max_length=50, null=False)
     curso = models.ForeignKey(Curso, on_delete=models.PROTECT, verbose_name="Curso")
-    alunos = models.ManyToManyField(Aluno)
+    turno = models.ForeignKey(Turno, on_delete=models.PROTECT, verbose_name="Turno")
 
     def __str__(self):
         return self.nome
+
+
+#Modelo aluno
+class Aluno(Pessoa):
+    curso = models.ForeignKey(Curso, on_delete=models.PROTECT, verbose_name="Curso")
+    turma = models.ForeignKey(Turma, on_delete=models.PROTECT, verbose_name="Turma")
+
+    def __str__(self):
+        return self.first_name
+
 
 #Modelo tecnico administrativo
 class Tecnico_Administrativo(models.Model):
@@ -189,6 +190,7 @@ class Requerimento(models.Model):
     documentos_files = models.FileField(upload_to=aluno_directory_path,default="null", null=True)
     tecnico_responsavel = models.ForeignKey(Tecnico_Administrativo,on_delete=models.PROTECT, related_name="Tecnico_Responsavel", null=True, blank=True)
     encaminhado_para = models.ForeignKey(Pessoa, on_delete=models.PROTECT, related_name="Avaliador", null=True, blank=True)
+    turma = models.ForeignKey(Turma, on_delete=models.PROTECT, related_name="Turma", null=True, blank=True)
 
     def __str__(self):
             return self.id
