@@ -46,7 +46,7 @@ def requerimento_detail(request, pk):
     requerimento=Requerimento.objects.get(id=pk)
     return render(request, 'requerimento/requerimento_detail.html', {'requerimento':requerimento})
 
-@permission_required('appsgr.new_requerimento',login_url='erro_permissao')
+@permission_required('appsgr.add_requerimento',login_url='erro_permissao')
 def requerimento_new(request):
 
     if (request.method=="GET"):
@@ -107,6 +107,12 @@ def requerimento_new(request):
         if (form.is_valid()):
             requerimento=form.save(commit=False)
             requerimento.tipo_requerimento=Tipo_Requerimento.objects.get(id=id_tipo_requerimento)
+            if(id_tipo_requerimento==13):
+                pass
+            if(id_tipo_requerimento==14):
+                pass
+            if(id_tipo_requerimento==15):
+                pass
             requerimento.aluno = Aluno.objects.get(username=request.user.username)
             requerimento.save()
             return redirect('requerimento_list')
