@@ -204,49 +204,62 @@ disciplina5.professores.add(prof9)
 
 
 #Cursos superiores
-cur1=Curso(nome='Sistemas Para Internet', coordenador=cor1, ativo=True, campus=cam1, anos=3, modalidade=mod1, periodos=6, turno=turn2)
+cur1=Curso(nome='Sistemas Para Internet', coordenador=cor1, ativo=True, campus=cam1, anos=3, modalidade=mod1, periodos=6)
 cur1.save()
 cur1.disciplinas.add(disciplina1,disciplina2,disciplina3,disciplina4,disciplina5)
+cur1.turnos.add(turn1, turn2, turn3)
 
-cur2=Curso(nome='Redes de Computadores', coordenador=cor4, ativo=True, campus=cam1, anos=3, modalidade=mod1, periodos=6, turno=turn2)
+cur2=Curso(nome='Redes de Computadores', coordenador=cor4, ativo=True, campus=cam1, anos=3, modalidade=mod1, periodos=6)
 cur2.save()
-cur3=Curso(nome='Física', coordenador=cor14, ativo=True, campus=cam1, anos=3, modalidade=mod1, periodos=6, turno=turn1)
+cur2.turnos.add(turn1, turn2)
+
+cur3=Curso(nome='Física', coordenador=cor14, ativo=True, campus=cam1, anos=3, modalidade=mod1, periodos=6)
 cur3.save()
-cur4=Curso(nome='Matemática', coordenador=cor13, ativo=True, campus=cam1, anos=3, modalidade=mod1, periodos=6, turno=turn1)
+cur3.turnos.add(turn2, turn3)
+
+cur4=Curso(nome='Matemática', coordenador=cor13, ativo=True, campus=cam1, anos=3, modalidade=mod1, periodos=6)
 cur4.save()
-cur5=Curso(nome='TADS', coordenador=cor12, ativo=True, campus=cam1, anos=3, modalidade=mod1, periodos=6, turno=turn3)
+cur4.turnos.add(turn1, turn3)
+
+cur5=Curso(nome='TADS', coordenador=cor12, ativo=True, campus=cam1, anos=3, modalidade=mod1, periodos=6)
 cur5.save()
-cur18=Curso(nome='Sistemas Para Internet', coordenador=cor1, ativo=True, campus=cam1, anos=3, modalidade=mod1, periodos=6, turno=turn1)
+cur5.turnos.add(turn1, turn2, turn3)
+
+cur18=Curso(nome='Matemática', coordenador=cor1, ativo=True, campus=cam1, anos=3, modalidade=mod1, periodos=6)
 cur18.save()
-cur19=Curso(nome='Redes de Computadores', coordenador=cor4, ativo=True, campus=cam1, anos=3, modalidade=mod1, periodos=6, turno=turn2)
+cur18.turnos.add(turn2, turn3)
+
+cur19=Curso(nome='Redes de Computadores', coordenador=cor4, ativo=True, campus=cam1, anos=3, modalidade=mod1, periodos=6)
 cur19.save()
+cur19.turnos.add(turn1, turn2, turn3)
+
 
 #Subsequente
-cur6=Curso(nome='Redes de Computadores', coordenador=cor4, ativo=True, campus=cam1, anos=2, modalidade=mod2, periodos=4, turno=turn2)
+cur6=Curso(nome='Redes de Computadores', coordenador=cor4, ativo=True, campus=cam1, anos=2, modalidade=mod2, periodos=4)
 cur6.save()
-cur7=Curso(nome='Mecatronica', coordenador=cor3, ativo=True, campus=cam1, anos=2, modalidade=mod2, periodos=4, turno=turn2)
+cur7=Curso(nome='Mecatronica', coordenador=cor3, ativo=True, campus=cam1, anos=2, modalidade=mod2, periodos=4)
 cur7.save()
-cur8=Curso(nome='Edificações', coordenador=cor9, ativo=True, campus=cam1, anos=2, modalidade=mod2, periodos=4, turno=turn2)
+cur8=Curso(nome='Edificações', coordenador=cor9, ativo=True, campus=cam1, anos=2, modalidade=mod2, periodos=4)
 cur8.save()
-cur9=Curso(nome='Energias Renováveis', coordenador=cor8, ativo=True, campus=cam1, anos=2, modalidade=mod2, periodos=4, turno=turn3)
+cur9=Curso(nome='Energias Renováveis', coordenador=cor8, ativo=True, campus=cam1, anos=2, modalidade=mod2, periodos=4)
 cur9.save()
-cur10=Curso(nome='Petróleo e Gás', coordenador=cor7, ativo=True, campus=cam1, anos=2, modalidade=mod2, periodos=4, turno=turn3)
+cur10=Curso(nome='Petróleo e Gás', coordenador=cor7, ativo=True, campus=cam1, anos=2, modalidade=mod2, periodos=4)
 cur10.save()
 
 #Integrado
-cur11=Curso(nome='Informática', coordenador=cor2, ativo=True, campus=cam1, anos=4, modalidade=mod3, periodos=0, turno=turn1)
+cur11=Curso(nome='Informática', coordenador=cor2, ativo=True, campus=cam1, anos=4, modalidade=mod3, periodos=0)
 cur11.save()
-cur12=Curso(nome='Mecânica', coordenador=cor4, ativo=True, campus=cam1, anos=4, modalidade=mod3, periodos=0, turno=turn1)
+cur12=Curso(nome='Mecânica', coordenador=cor4, ativo=True, campus=cam1, anos=4, modalidade=mod3, periodos=0)
 cur12.save()
-cur13=Curso(nome='Mecatrônica', coordenador=cor3, ativo=True, campus=cam1, anos=4, modalidade=mod3, periodos=0, turno=turn1)
+cur13=Curso(nome='Mecatrônica', coordenador=cor3, ativo=True, campus=cam1, anos=4, modalidade=mod3, periodos=0)
 cur13.save()
-cur14=Curso(nome='Edificações', coordenador=cor5, ativo=True, campus=cam1, anos=4, modalidade=mod3, periodos=0, turno=turn2)
+cur14=Curso(nome='Edificações', coordenador=cor5, ativo=True, campus=cam1, anos=4, modalidade=mod3, periodos=0)
 cur14.save()
-cur15=Curso(nome='Mineração', coordenador=cor6, ativo=True, campus=cam1, anos=4, modalidade=mod3, periodos=0, turno=turn2)
+cur15=Curso(nome='Mineração', coordenador=cor6, ativo=True, campus=cam1, anos=4, modalidade=mod3, periodos=0)
 cur15.save()
-cur16=Curso(nome='Informática', coordenador=cor2, ativo=True, campus=cam1, anos=4, modalidade=mod3, periodos=0, turno=turn2)
+cur16=Curso(nome='Informática', coordenador=cor2, ativo=True, campus=cam1, anos=4, modalidade=mod3, periodos=0)
 cur16.save()
-cur17=Curso(nome='Mecatrônica', coordenador=cor3, ativo=True, campus=cam1, anos=4, modalidade=mod3, periodos=0, turno=turn2)
+cur17=Curso(nome='Mecatrônica', coordenador=cor3, ativo=True, campus=cam1, anos=4, modalidade=mod3, periodos=0)
 cur17.save()
 
 #Técnicos

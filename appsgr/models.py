@@ -98,7 +98,7 @@ class Curso(models.Model):
     anos = models.DecimalField("Anos",max_digits=2,decimal_places=1)
     ativo = models.BooleanField("Curso Ativo", null=False, default=True)
     modalidade = models.ForeignKey(ModalidadeCurso, on_delete=models.PROTECT, verbose_name="Modalidade")
-    turno = models.ForeignKey(Turno, on_delete=models.PROTECT, verbose_name="Turno")
+    turnos = models.ManyToManyField(Turno)
     campus = models.ForeignKey(Campus, on_delete=models.PROTECT, verbose_name="Modalidade")
     coordenador = models.ForeignKey(Coordenador, on_delete=models.PROTECT, verbose_name="Coordenador")
     disciplinas = models.ManyToManyField(Disciplina)
