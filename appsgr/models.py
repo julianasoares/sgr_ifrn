@@ -2,6 +2,24 @@ from django.db import models
 from django.contrib.auth.models import User, Group
 
 
+class Grupo(Group):
+    descricao = models.CharField("Grupo", max_length=20)
+
+#Modelo pessoa
+class Pessoa(User):
+    data_nascimento = models.DateField("Data de Nascimento", null=True, blank=True)
+    cpf = models.CharField("CPF", max_length=14, unique=True, null=False)
+    telefone = models.CharField("Telefone",max_length=11, blank=True, null=True)
+    grupos = models.ManyToManyField(Grupo)
+
+#Modelo diretor
+class Diretor(models.Model):
+    pessoa = models.OneToOneField(Pessoa, on_delete=models.PROTECT, verbose_name="Pessoa", null=False, primary_key=True)
+    ativo = models.BooleanField("Diretor Ativo", null=False, default=True)
+
+    def __str__(self):
+        return self.pessoa.first_name
+
 #Modelo campus
 class Campus(models.Model):
     nome = models.CharField("Nome", max_length=50, null=False)
@@ -10,7 +28,7 @@ class Campus(models.Model):
     cidade = models.CharField("Cidade", max_length=100, null=False)
     numero = models.IntegerField("Número", null=False)
     telefone = models.CharField("Telefone", max_length=11, null=False)
-
+    diretores = models.ManyToManyField(Diretor)
     def __str__(self):
         return self.nome
 
@@ -37,15 +55,9 @@ class Turno(models.Model):
 class ProfessorDisciplina(models.Model):
     relacao_ativa = models.BooleanField("Professor ativo na disciplina", null=False, default=True)
 
-class Grupo(Group):
-        descricao = models.CharField("Grupo", max_length=20)
 
-#Modelo pessoa
-class Pessoa(User):
-    data_nascimento = models.DateField("Data de Nascimento", null=True, blank=True)
-    cpf = models.CharField("CPF", max_length=14, unique=True, null=False)
-    telefone = models.CharField("Telefone",max_length=11, blank=True, null=True)
-    grupos = models.ManyToManyField(Grupo)
+
+
 
 
 
@@ -58,20 +70,7 @@ class Coordenador(models.Model):
         return self.pessoa.first_name
 
 
-#Modelo diretor
-class Diretor(models.Model):
-    pessoa = models.OneToOneField(Pessoa, on_delete=models.PROTECT, verbose_name="Pessoa", null=False, primary_key=True)
-    ativo = models.BooleanField("Diretor Ativo", null=False, default=True)
 
-    def __str__(self):
-        return self.pessoa.first_name
-
-#Modelo relação diretor com campus
-class DiretorCampus(models.Model):
-    diretor = models.ForeignKey(Diretor, on_delete=models.PROTECT, verbose_name="Coordenador")
-    campus = models.ForeignKey(Campus, on_delete=models.PROTECT, verbose_name="Campus")
-    class Meta:
-        unique_together = ('diretor',)
 
 
 #Modelo professor
@@ -128,7 +127,7 @@ class Aluno(Pessoa):
 #Modelo tecnico administrativo
 class Tecnico_Administrativo(models.Model):
     pessoa = models.OneToOneField(Pessoa, on_delete=models.PROTECT, verbose_name="Pessoa", null=False, primary_key=True)
-
+    campus_atuante = models.ForeignKey(Campus, on_delete=models.PROTECT, verbose_name="Campus Atuação", null=False)
     def __str__(self):
         return self.pessoa.first_name
 

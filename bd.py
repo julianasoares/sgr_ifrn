@@ -93,6 +93,16 @@ pes18 = Pessoa(first_name='Felipe', last_name="Quintaes", cpf='22259844456',emai
 pes18.set_password('123456')
 pes18.save()
 diretores.user_set.add(pes18)
+
+#Diretor
+dir1=Diretor(pessoa=pes18)
+dir1.save()
+
+cam1 = Campus(nome='Parnamirim', telefone='40054108', cidade='Parnamirim', endereco='Rua Boa Esperança', bairro='Nova Esperança', numero=75)
+cam1.save()
+cam1.diretores.add(dir1)
+
+#Tecnico administrativo
 pes19=Pessoa(first_name='Eduardo', last_name="Chavez", cpf='55566633301',email='eduardo@gmail.com',data_nascimento="1989-05-15",username='20112133010219',  telefone='84955196660')
 pes19.set_password('123456')
 pes19.save()
@@ -103,9 +113,7 @@ pes20.save()
 tecadm.user_set.add(pes20)
 
 
-#Diretor
-dir1=Diretor(pessoa=pes18)
-dir1.save()
+
 
 #Coordenadores
 cor1=Coordenador(pessoa=pes1)
@@ -141,8 +149,7 @@ cor15.save()
 
 
 
-cam1 = Campus(nome='Parnamirim', telefone='40054108', cidade='Parnamirim', endereco='Rua Boa Esperança', bairro='Nova Esperança', numero=75, )
-cam1.save()
+
 
 mod1 =  ModalidadeCurso(nivel='Superior', nome='Superior')
 mod1.save()
@@ -285,9 +292,9 @@ cur17.save()
 cur17.turnos.add(turn1, turn2)
 
 #Técnicos
-tec1=Tecnico_Administrativo(pessoa=pes19)
+tec1=Tecnico_Administrativo(pessoa=pes19, campus_atuante=cam1)
 tec1.save()
-tec2=Tecnico_Administrativo(pessoa=pes20)
+tec2=Tecnico_Administrativo(pessoa=pes20, campus_atuante=cam1)
 tec2.save()
 
 #Criando turmas de sistemas para internet
