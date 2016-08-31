@@ -39,7 +39,7 @@ def requerimento_list(request):
         requerimento=paginator.page(paginator.num_pages)
 
     dados={'requerimento':requerimento,'criterio':criterio,'paginator':paginator,'page_obj':requerimento, "tipo_requerimento":tipo_requerimento}
-    return render(request, 'requerimento/requerimento_list.html', dados)
+    return render(request, 'requerimento/requerimento_list_aluno.html', dados)
 
 @permission_required('appsgr.detail_requerimento',login_url='erro_permissao')
 def requerimento_detail(request, pk):
