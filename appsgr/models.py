@@ -189,10 +189,10 @@ class Requerimento(models.Model):
     documentos_files = models.FileField(upload_to=aluno_directory_path,default="null", null=True)
     tecnico_responsavel = models.ForeignKey(Tecnico_Administrativo,on_delete=models.PROTECT, related_name="Tecnico_Responsavel", null=True, blank=True)
     encaminhado_para = models.ForeignKey(Pessoa, on_delete=models.PROTECT, related_name="Avaliador", null=True, blank=True)
-    turma = models.ForeignKey(Turma, on_delete=models.PROTECT, related_name="Turma", null=True, blank=True)
+
 
     def __str__(self):
-            return self.id
+            return self.id,self.aluno.get_full_name(),self.data_solicitacao_requerimento,self.tipo_requerimento, self.disciplina_cursada, self.disciplina_curso_atual, self.observacoes, self.data_realizacao_certificacao, self.disciplina_certificacao, self.resultado_certificacao, self.encaminhamentos, self.data_faltas_de, self.data_faltas_ate, self.data_falta_dia, self.curso_origem, self.curso_destino, self.turma_origem, self.turma_destino, self.periodo_trancamento, self.outros, self.justificava, self.observacoes_analise_aproveitamento, self.observacoes_documentos_apresentados, self.resultado, self.data_atividade, self.tipo_atividade, self.tranferencia_curso_destino, self.tranferencia_curso_origem, self.tranferencia_escola_destino, self.tranferencia_escola_origem, self.apto_avaliacao, self.disciplina_certificacao, self.documentos_apresentados, self.tecnico_responsavel, self.encaminhado_para
     class Meta:
         permissions = (("view_requerimento","Can see requerimento"),("detail_requerimento","Can see detail requerimento"),)
 
