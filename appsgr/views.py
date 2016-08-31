@@ -1,5 +1,3 @@
-from turtledemo.clock import tick
-
 from django.shortcuts import render,redirect
 from django.http import HttpResponse
 from django.db import IntegrityError
@@ -23,75 +21,13 @@ def erro_permissao(request):
 
 @permission_required('appsgr.view_requerimento',login_url='erro_permissao')
 def requerimento_list(request):
-    criterio=request.GET.get('criterio')
-    pessoa_logada = Pessoa.objects.get(username=request.user.username)
-    requerimentos_professor = []
-
-
-    try:
-        aluno = Aluno.objects.get(username=pessoa_logada.username)
-    except Aluno.DoesNotExist:
-        aluno = None
-    try:
-        tecnico = Tecnico_Administrativo.objects.get(pessoa_id=pessoa_logada.id)
-    except Tecnico_Administrativo.DoesNotExist:
-        tecnico = None
-    try:
-        diretor = Diretor.objects.get(pessoa_id=pessoa_logada.id)
-    except Diretor.DoesNotExist:
-        diretor = None
-    try:
-        coordenador = Coordenador.objects.get(pessoa_id=pessoa_logada.id)
-    except Coordenador.DoesNotExist:
-        coordenador = None
-    try:
-        professor = Professor.objects.get(pessoa_id=pessoa_logada.id)
-    except Professor.DoesNotExist:
-        professor = None
-
-        #Listagem de requerimentos do aluno
-    if(aluno != None):
-        if (criterio):
-            requerimento=Requerimento.objects.filter(descricao__contains=criterio, aluno=aluno).order_by('tipo_requerimento','-data_solicitacao_requerimento')
-        else:
-            requerimento=Requerimento.objects.filter(aluno_id=aluno).order_by('tipo_requerimento','-data_solicitacao_requerimento') #| Requerimento.objects.filter(tipo_requerimento_id=2).order_by('tipo_requerimento','-data_solicitacao_requerimento')
-            criterio=""
-    elif(tecnico != None):
-        #alunos = Aluno.objects.filter(curso.campus_id=1)
-        campusid = tecnico.campus_atuante
-        if (criterio):
-            requerimento=Requerimento.objects.filter(descricao__contains=criterio).order_by('tipo_requerimento','data_solicitacao_requerimento')
-        else:
-            requerimento=Requerimento.objects.all().order_by('tipo_requerimento','data_solicitacao_requerimento') #| Requerimento.objects.filter(tipo_requerimento_id=2).order_by('tipo_requerimento','-data_solicitacao_requerimento')
-            criterio=""
-
-    elif(diretor != None and coordenador != None):
-        if(professor != None):
-            requerimentos_professor = Requerimento.objects.filter(professor_atividade_id=professor)
-        if (criterio):
-            requerimento=Requerimento.objects.filter(descricao__contains=criterio).order_by('tipo_requerimento','data_solicitacao_requerimento')
-        else:
-            requerimento=Requerimento.objects.filter(encaminhado_para=diretor.pessoa.id).order_by('tipo_requerimento','data_solicitacao_requerimento')
-            criterio=""
-
-    elif(coordenador != None):
-        if(professor != None):
-            requerimentos_professor = Requerimento.objects.filter(professor_atividade_id=professor)
-        if (criterio):
-            requerimento=Requerimento.objects.filter(descricao__contains=criterio).order_by('tipo_requerimento','data_solicitacao_requerimento')
-        else:
-            requerimento=Requerimento.objects.filter(encaminhado_para=coordenador.pessoa_id).order_by('tipo_requerimento','data_solicitacao_requerimento')
-            criterio=""
-    elif(professor != None):
-        requerimentos_professor = Requerimento.objects.filter(professor_atividade_id=professor)
-        if (criterio):
-            requerimento=Requerimento.objects.filter(descricao__contains=criterio).order_by('tipo_requerimento','data_solicitacao_requerimento')
-        else:
-            requerimento=Requerimento.objects.all().filter(professor_atividade_id=professor).order_by('tipo_requerimento','data_solicitacao_requerimento') #| Requerimento.objects.filter(tipo_requerimento_id=2).order_by('tipo_requerimento','-data_solicitacao_requerimento')
-            criterio=""
-
-
     tipo_requerimento=Tipo_Requerimento.objects.all().order_by('nome')
+    criterio=request.GET.get('criterio')
+    if (criterio):
+        requerimento=Requerimento.objects.filter(descricao__contains=criterio).order_by('tipo_requerimento','-data_solicitacao_requerimento')
+    else:
+        requerimento=Requerimento.objects.all().order_by('tipo_requerimento','-data_solicitacao_requerimento')
+        criterio=""
     #Cria o mecanimos de paginação
     paginator=Paginator(requerimento,10)
     page=request.GET.get('page')
@@ -102,8 +38,8 @@ def requerimento_list(request):
     except EmptyPage:
         requerimento=paginator.page(paginator.num_pages)
 
-    dados={'requerimento':requerimento,'criterio':criterio,'paginator':paginator,'page_obj':requerimento, "tipo_requerimento":tipo_requerimento, 'requerimentos_professor':requerimentos_professor}
-    return render(request, 'requerimento/requerimento_list.html', dados)
+    dados={'requerimento':requerimento,'criterio':criterio,'paginator':paginator,'page_obj':requerimento, "tipo_requerimento":tipo_requerimento}
+    return render(request, 'requerimento/requerimento_list_aluno.html', dados)
 
 @permission_required('appsgr.detail_requerimento',login_url='erro_permissao')
 def requerimento_detail(request, pk):
@@ -118,6 +54,7 @@ def requerimento_new(request):
         request.session[0]=id_tipo_requerimento
     else:
         id_tipo_requerimento=request.session['0']
+
     if(id_tipo_requerimento=="1"):
         RequerimentoFormNovo=modelform_factory(Requerimento,fields=('observacoes','documentos_apresentados','documentos_files',))
     elif(id_tipo_requerimento=="2"):
