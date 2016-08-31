@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% block conteudo %}
+
+    {{ requerimento.__str__ }}
+
+    <form method="POST" role="form">
+        {% csrf_token %}
+    {% for field in form %}
+        {% if field.name == "justificava"%}
+            <label>{{ field.label }} <input type="text" name="{{ field.name }}" id="{{ field.name }}" value="" ></label>
+
+        {% endif %}
+        {% if field.name == "resultado"%}
+            <label><input type="hidden" name="{{ field.name }}" id="{{ field.name }}" value="1"></label>
+        {% endif %}
+        {% if field.name == "id"%}
+            <label><input type="hidden" name="{{ field.name }}" id="{{ field.name }}" value="{{ field.value }}"></label>
+        {% endif %}
+    {% endfor %}
+
+        <input type="submit" class="btn btn-primary" value="Indiferir">
+    </form>
+
+
+
+{% endblock %}

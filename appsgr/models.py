@@ -77,6 +77,7 @@ class Coordenador(models.Model):
 class Professor(models.Model):
     pessoa = models.OneToOneField(Pessoa, on_delete=models.PROTECT, verbose_name="Pessoa", null=False, primary_key=True)
     ativo = models.BooleanField("Professor Ativo", null=False, default=True)
+    campus_atuante = models.ForeignKey(Campus, on_delete=models.PROTECT, verbose_name="Campus Atuação", null=False)
 
     def __str__(self):
         return self.pessoa.first_name
@@ -192,7 +193,7 @@ class Requerimento(models.Model):
 
 
     def __str__(self):
-            return self.id,self.aluno.get_full_name(),self.data_solicitacao_requerimento,self.tipo_requerimento, self.disciplina_cursada, self.disciplina_curso_atual, self.observacoes, self.data_realizacao_certificacao, self.disciplina_certificacao, self.resultado_certificacao, self.encaminhamentos, self.data_faltas_de, self.data_faltas_ate, self.data_falta_dia, self.curso_origem, self.curso_destino, self.turma_origem, self.turma_destino, self.periodo_trancamento, self.outros, self.justificava, self.observacoes_analise_aproveitamento, self.observacoes_documentos_apresentados, self.resultado, self.data_atividade, self.tipo_atividade, self.tranferencia_curso_destino, self.tranferencia_curso_origem, self.tranferencia_escola_destino, self.tranferencia_escola_origem, self.apto_avaliacao, self.disciplina_certificacao, self.documentos_apresentados, self.tecnico_responsavel, self.encaminhado_para
+        return self.id,self.aluno.get_full_name(),self.data_solicitacao_requerimento,self.tipo_requerimento, self.disciplina_cursada, self.disciplina_curso_atual, self.observacoes, self.data_realizacao_certificacao, self.disciplina_certificacao, self.resultado_certificacao, self.encaminhamentos, self.data_faltas_de, self.data_faltas_ate, self.data_falta_dia, self.curso_origem, self.curso_destino, self.turma_origem, self.turma_destino, self.periodo_trancamento, self.outros, self.justificava, self.observacoes_analise_aproveitamento, self.observacoes_documentos_apresentados, self.resultado, self.data_atividade, self.tipo_atividade, self.tranferencia_curso_destino, self.tranferencia_curso_origem, self.tranferencia_escola_destino, self.tranferencia_escola_origem, self.apto_avaliacao, self.disciplina_certificacao, self.documentos_apresentados, self.tecnico_responsavel, self.encaminhado_para
     class Meta:
         permissions = (("view_requerimento","Can see requerimento"),("detail_requerimento","Can see detail requerimento"),)
 

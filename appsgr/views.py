@@ -21,30 +21,149 @@ def erro_permissao(request):
 
 @permission_required('appsgr.view_requerimento',login_url='erro_permissao')
 def requerimento_list(request):
-    tipo_requerimento=Tipo_Requerimento.objects.all().order_by('nome')
     criterio=request.GET.get('criterio')
-    if (criterio):
-        requerimento=Requerimento.objects.filter(descricao__contains=criterio).order_by('tipo_requerimento','-data_solicitacao_requerimento')
-    else:
-        requerimento=Requerimento.objects.all().order_by('tipo_requerimento','-data_solicitacao_requerimento')
-        criterio=""
-    #Cria o mecanimos de paginação
-    paginator=Paginator(requerimento,10)
-    page=request.GET.get('page')
-    try:
-        requerimento=paginator.page(page)
-    except PageNotAnInteger:
-        requerimento=paginator.page(1)
-    except EmptyPage:
-        requerimento=paginator.page(paginator.num_pages)
+    pessoa_logada = Pessoa.objects.get(username=request.user.username)
+    tipo_requerimento=Tipo_Requerimento.objects.all().order_by('nome')
+    requerimentos_professor = []
 
-    dados={'requerimento':requerimento,'criterio':criterio,'paginator':paginator,'page_obj':requerimento, "tipo_requerimento":tipo_requerimento}
-    return render(request, 'requerimento/requerimento_list_aluno.html', dados)
+
+    #Instanciando objetos
+    try:
+        aluno = Aluno.objects.get(username=pessoa_logada.username)
+    except Aluno.DoesNotExist:
+        aluno = None
+    try:
+        tecnico = Tecnico_Administrativo.objects.get(pessoa_id=pessoa_logada.id)
+    except Tecnico_Administrativo.DoesNotExist:
+        tecnico = None
+    try:
+        diretor = Diretor.objects.get(pessoa_id=pessoa_logada.id)
+    except Diretor.DoesNotExist:
+        diretor = None
+    try:
+        coordenador = Coordenador.objects.get(pessoa_id=pessoa_logada.id)
+    except Coordenador.DoesNotExist:
+        coordenador = None
+    try:
+        professor = Professor.objects.get(pessoa_id=pessoa_logada.id)
+    except Professor.DoesNotExist:
+        professor = None
+
+    #Listagem de requerimentos de acordo com o logon
+    if(aluno != None):
+        if (criterio):
+            requerimento=Requerimento.objects.filter(descricao__contains=criterio, aluno=aluno).order_by('tipo_requerimento','-data_solicitacao_requerimento')
+        else:
+            requerimento=Requerimento.objects.filter(aluno_id=aluno).order_by('tipo_requerimento','-data_solicitacao_requerimento') #| Requerimento.objects.filter(tipo_requerimento_id=2).order_by('tipo_requerimento','-data_solicitacao_requerimento')
+            criterio=""
+        #Cria o mecanimos de paginação
+        paginator=Paginator(requerimento,10)
+        page=request.GET.get('page')
+        try:
+            requerimento=paginator.page(page)
+        except PageNotAnInteger:
+            requerimento=paginator.page(1)
+        except EmptyPage:
+            requerimento=paginator.page(paginator.num_pages)
+        dados={'requerimento':requerimento,'criterio':criterio,'paginator':paginator,'page_obj':requerimento, "tipo_requerimento":tipo_requerimento}
+        return render(request, 'requerimento/requerimento_list_aluno.html', dados)
+    elif(tecnico != None):
+        #alunos = Aluno.objects.filter(curso.campus_id=1)
+        #campusid = tecnico.campus_atuante
+        if (criterio):
+            requerimento=Requerimento.objects.filter(descricao__contains=criterio, resultado=None, encaminhado_para=None).order_by('tipo_requerimento','-data_solicitacao_requerimento')
+        else:
+            requerimento=Requerimento.objects.filter(resultado=None, encaminhado_para=None).order_by('tipo_requerimento','data_solicitacao_requerimento') #| Requerimento.objects.filter(tipo_requerimento_id=2).order_by('tipo_requerimento','-data_solicitacao_requerimento')
+            criterio=""
+        #Cria o mecanimos de paginação
+        paginator=Paginator(requerimento,10)
+        page=request.GET.get('page')
+        try:
+            requerimento=paginator.page(page)
+        except PageNotAnInteger:
+            requerimento=paginator.page(1)
+        except EmptyPage:
+            requerimento=paginator.page(paginator.num_pages)
+        dados={'requerimento':requerimento,'criterio':criterio,'paginator':paginator,'page_obj':requerimento, "tipo_requerimento":tipo_requerimento, 'requerimentos_professor':requerimentos_professor}
+        return render(request, 'requerimento/requerimento_list_tecnico.html', dados)
+
+    elif(diretor != None and coordenador != None):
+        if(professor != None):
+            requerimentos_professor = Requerimento.objects.filter(professor_atividade_id=professor).exclude(resultado=None).order_by('tipo_requerimento','data_solicitacao_requerimento')
+        if (criterio):
+            requerimento=Requerimento.objects.filter(descricao__contains=criterio, resultado=None).order_by('tipo_requerimento','-data_solicitacao_requerimento')
+        else:
+            requerimento=Requerimento.objects.filter(encaminhado_para=diretor.pessoa.id, resultado=None).order_by('tipo_requerimento','-data_solicitacao_requerimento')
+            criterio=""
+        #Cria o mecanimos de paginação
+        paginator=Paginator(requerimento,10)
+        page=request.GET.get('page')
+        try:
+            requerimento=paginator.page(page)
+        except PageNotAnInteger:
+            requerimento=paginator.page(1)
+        except EmptyPage:
+            requerimento=paginator.page(paginator.num_pages)
+        dados={'requerimento':requerimento,'criterio':criterio,'paginator':paginator,'page_obj':requerimento, "tipo_requerimento":tipo_requerimento, 'requerimentos_professor':requerimentos_professor}
+        return render(request, 'requerimento/requerimento_list_diretor.html', dados)
+
+    elif(coordenador != None):
+        if(professor != None):
+            requerimentos_professor = Requerimento.objects.filter(professor_atividade_id=professor).exclude(resultado=None).order_by('tipo_requerimento','data_solicitacao_requerimento')
+        if (criterio):
+            requerimento=Requerimento.objects.filter(descricao__contains=criterio, resultado=None).order_by('tipo_requerimento','-data_solicitacao_requerimento')
+        else:
+            requerimento=Requerimento.objects.filter(encaminhado_para=coordenador.pessoa_id, resultado=None).order_by('tipo_requerimento','-data_solicitacao_requerimento')
+            criterio=""
+        #Cria o mecanimos de paginação
+        paginator=Paginator(requerimento,10)
+        page=request.GET.get('page')
+        try:
+            requerimento=paginator.page(page)
+        except PageNotAnInteger:
+            requerimento=paginator.page(1)
+        except EmptyPage:
+            requerimento=paginator.page(paginator.num_pages)
+        dados={'requerimento':requerimento,'criterio':criterio,'paginator':paginator,'page_obj':requerimento, "tipo_requerimento":tipo_requerimento, 'requerimentos_professor':requerimentos_professor}
+        return render(request, 'requerimento/requerimento_list_professor.html', dados)
+
+    elif(professor != None):
+        if (criterio):
+            requerimento=Requerimento.objects.filter(descricao__contains=criterio, professor_atividade_id=professor).exclude(resultado=None).order_by('tipo_requerimento','data_solicitacao_requerimento')
+        else:
+            requerimento=Requerimento.objects.all().filter(professor_atividade_id=professor).order_by('tipo_requerimento','data_solicitacao_requerimento')
+            criterio=""
+        #Cria o mecanimos de paginação
+        paginator=Paginator(requerimento,10)
+        page=request.GET.get('page')
+        try:
+            requerimento=paginator.page(page)
+        except PageNotAnInteger:
+            requerimento=paginator.page(1)
+        except EmptyPage:
+            requerimento=paginator.page(paginator.num_pages)
+        dados={'requerimento':requerimento,'criterio':criterio,'paginator':paginator,'page_obj':requerimento, "tipo_requerimento":tipo_requerimento, 'requerimentos_professor':requerimentos_professor}
+        return render(request, 'requerimento/requerimento_list_professor.html', dados)
+
+
 
 @permission_required('appsgr.detail_requerimento',login_url='erro_permissao')
 def requerimento_detail(request, pk):
+    pessoa_logada = Pessoa.objects.get(username=request.user.username)
+    usuarios = []
+    request.session[0]=pk
+    try:
+        tecnico = Tecnico_Administrativo.objects.get(pessoa_id=pessoa_logada.id)
+    except Tecnico_Administrativo.DoesNotExist:
+        tecnico = None
+
+
     requerimento=Requerimento.objects.get(id=pk)
-    return render(request, 'requerimento/requerimento_detail.html', {'requerimento':requerimento})
+    form=RequerimentoForm(request.POST,instance=requerimento)
+    dados = {'form':form,'usuarios':usuarios,'requerimento':requerimento}
+    return render(request, 'requerimento/requerimento_detail.html', dados)
+
+
 
 @permission_required('appsgr.add_requerimento',login_url='erro_permissao')
 def requerimento_new(request):
@@ -142,15 +261,20 @@ def requerimento_new(request):
 @permission_required('appsgr.update_requerimento',login_url='erro_permissao')
 def requerimento_update(request,pk):
     requerimento=Requerimento.objects.get(id=pk)
+    request.session[0]=pk
+
+    idreq = request.session['0']
     if (request.method=="POST"):
         form=RequerimentoForm(request.POST,instance=requerimento)
         if (form.is_valid()):
-            form.save()
+            requerimento=form.save(commit=False)
+            requerimento.id=Requerimento.objects.get(id=idreq)
+            requerimento.save()
             return redirect('requerimento_list')
     else:
         form=RequerimentoForm(instance=requerimento)
     dados={'form':form,'requerimento':requerimento}
-    return render(request, 'requerimento/requerimento_form.html', dados)
+    return render(request, 'requerimento/requerimento_detail.html', dados)
 
 @permission_required('appsgr.delete_requerimento',login_url='erro_permissao')
 def requerimento_delete(request,pk):

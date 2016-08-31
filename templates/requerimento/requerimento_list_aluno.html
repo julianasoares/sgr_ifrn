@@ -13,25 +13,29 @@
 
 
     <form class="navbar-form navbar-left" role="search" method="get" action="{% url 'requerimento_list' %}">
-      <div class="form-group">
-          <label for="criterio">Descrição:</label>
-        <input type="text" id="criterio" name="criterio" value="{{ criterio }}" class="form-control" placeholder="Descrição">
-      </div>
-      <button type="submit" class="btn btn-default">Buscar</button>
+        <div class="form-group">
+            <label for="criterio">Descrição:</label>
+            <input type="text" id="criterio" name="criterio" value="{{ criterio }}" class="form-control" placeholder="Descrição">
+        </div>
+        <button type="submit" class="btn btn-default">Buscar</button>
     </form>
     <table class="table table-hover">
-  <tr>
-    <th>Tipo</th>
-      <th colspan="2">Operações</th>
-  </tr>
-    {% for requerimento in requerimento %}
         <tr>
-            <td><a href="{% url 'requerimento_detail' requerimento.pk %}"> {{ requerimento.tipo_requerimento }}</a></td>
-            <td><a href="{% url 'requerimento_update' requerimento.pk %}" class="btn btn-primary">Atualizar</a> </td>
-            <td><a href="{% url 'requerimento_delete' requerimento.pk %}" class="btn btn-danger">Excluir</a> </td>
-
+            <th>Nº</th>
+            <th>Tipo</th>
+            <th>Data da Solicitação</th>
+            <th colspan="2">Operações</th>
         </tr>
-    {% endfor %}
-</table>
+        {% for requerimento in requerimento %}
+            <tr>
+                <td><a href="{% url 'requerimento_detail' requerimento.pk %}">{{ requerimento.id }}</a></td>
+                <td><a href="{% url 'requerimento_detail' requerimento.pk %}"> {{ requerimento.tipo_requerimento }}</a></td>
+                <td>{{ requerimento.data_solicitacao_requerimento }}</td>
+                <td><a href="{% url 'requerimento_update' requerimento.pk %}" class="btn btn-primary">Atualizar</a> </td>
+                <td><a href="{% url 'requerimento_delete' requerimento.pk %}" class="btn btn-danger">Excluir</a> </td>
+
+            </tr>
+        {% endfor %}
+    </table>
     {% include 'utils/paginacao.html' %}
 {% endblock %}
