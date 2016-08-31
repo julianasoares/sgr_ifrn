@@ -14,16 +14,12 @@
             <th>Nº</th>
             <th>Tipo</th>
             <th>Data da Solicitação</th>
-            <th colspan="2">Operações</th>
         </tr>
         {% for requerimento in requerimento %}
             <tr>
                 <td><a href="{% url 'requerimento_detail' requerimento.pk %}">{{ requerimento.id }}</a></td>
                 <td><a href="{% url 'requerimento_detail' requerimento.pk %}"> {{ requerimento.tipo_requerimento }}</a></td>
                 <td>{{ requerimento.data_solicitacao_requerimento }}</td>
-                <td><a href="{% url 'requerimento_update' requerimento.pk %}" class="btn btn-primary">Atualizar</a> </td>
-                <td><a href="{% url 'requerimento_delete' requerimento.pk %}" class="btn btn-danger">Excluir</a> </td>
-
             </tr>
         {% endfor %}
 </table>
