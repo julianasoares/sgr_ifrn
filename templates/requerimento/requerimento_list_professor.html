@@ -1,17 +1,10 @@
 {% extends 'base.html' %}
 {% block conteudo %}
+
+    {% if not requerimento %}
+            <h2>NÂO HÀ REQUERIMENTOS<h2>
+    {% else %}
     <h2>Requerimentos</h2>
-    <form method="GET" role="form" action="{% url 'requerimento_new' %}" class="form-group">
-
-        <select name="id_tipo_requerimento">
-            {% for field in tipo_requerimento %}
-                <option value="{{ field.id }}">{{ field.nome }}</option>
-            {% endfor %}
-        </select>
-        <input type="submit" class="btn btn-primary" value="Criar">
-    </form>
-
-
     <form class="navbar-form navbar-left" role="search" method="get" action="{% url 'requerimento_list' %}">
       <div class="form-group">
           <label for="criterio">Descrição:</label>
@@ -20,18 +13,23 @@
       <button type="submit" class="btn btn-default">Buscar</button>
     </form>
     <table class="table table-hover">
-  <tr>
-    <th>Tipo</th>
-      <th colspan="2">Operações</th>
-  </tr>
-    {% for requerimento in requerimento %}
         <tr>
-            <td><a href="{% url 'requerimento_detail' requerimento.pk %}"> {{ requerimento.tipo_requerimento }}</a></td>
-            <td><a href="{% url 'requerimento_update' requerimento.pk %}" class="btn btn-primary">Atualizar</a> </td>
-            <td><a href="{% url 'requerimento_delete' requerimento.pk %}" class="btn btn-danger">Excluir</a> </td>
-
+            <th>Nº</th>
+            <th>Tipo</th>
+            <th>Data da Solicitação</th>
+            <th colspan="2">Operações</th>
         </tr>
-    {% endfor %}
-</table>
+        {% for requerimento in requerimento %}
+            <tr>
+                <td><a href="{% url 'requerimento_detail' requerimento.pk %}">{{ requerimento.id }}</a></td>
+                <td><a href="{% url 'requerimento_detail' requerimento.pk %}"> {{ requerimento.tipo_requerimento }}</a></td>
+                <td>{{ requerimento.data_solicitacao_requerimento }}</td>
+                <td><a href="{% url 'requerimento_update' requerimento.pk %}" class="btn btn-primary">Atualizar</a> </td>
+                <td><a href="{% url 'requerimento_delete' requerimento.pk %}" class="btn btn-danger">Excluir</a> </td>
+
+            </tr>
+        {% endfor %}
+    </table>
     {% include 'utils/paginacao.html' %}
+    {% endif %}
 {% endblock %}

@@ -4,6 +4,8 @@ from django.contrib.auth.views import login,logout
 
 urlpatterns=[
     url(r'^$',home,name='home'),
+
+    url(r'^requerimento_notificacao/list$',requerimento_notificacao_list,name='requerimento_notificacao_list'),
     url(r'^requerimento/list$',requerimento_list,name='requerimento_list'),
     url(r'^requerimento/detail/(?P<pk>\d+)$',requerimento_detail,name='requerimento_detail'),
     url(r'^requerimento/new$', requerimento_new, name='requerimento_new'),

@@ -145,7 +145,38 @@ def requerimento_list(request):
         dados={'requerimento':requerimento,'criterio':criterio,'paginator':paginator,'page_obj':requerimento, "tipo_requerimento":tipo_requerimento, 'requerimentos_professor':requerimentos_professor}
         return render(request, 'requerimento/requerimento_list_professor.html', dados)
 
+@permission_required('appsgr.view_requerimento',login_url='erro_permissao')
+def requerimento_notificacao_list(request):
+    criterio=request.GET.get('criterio')
+    pessoa_logada = Pessoa.objects.get(username=request.user.username)
+    tipo_requerimento=Tipo_Requerimento.objects.all().order_by('nome')
+    requerimentos_professor = []
 
+
+    #Instanciando objetos
+    try:
+        professor = Professor.objects.get(pessoa_id=pessoa_logada.id)
+    except Professor.DoesNotExist:
+        professor = None
+
+    #Listagem de requerimentos de acordo com o logon
+    if(professor != None):
+        if (criterio):
+            requerimento=Requerimento.objects.filter(descricao__contains=criterio, professor_atividade_id=professor).exclude(resultado=None).order_by('tipo_requerimento','data_solicitacao_requerimento')
+        else:
+            requerimento=Requerimento.objects.all().filter(professor_atividade_id=professor).order_by('tipo_requerimento','data_solicitacao_requerimento')
+            criterio=""
+        #Cria o mecanimos de paginação
+        paginator=Paginator(requerimento,10)
+        page=request.GET.get('page')
+        try:
+            requerimento=paginator.page(page)
+        except PageNotAnInteger:
+            requerimento=paginator.page(1)
+        except EmptyPage:
+            requerimento=paginator.page(paginator.num_pages)
+        dados={'requerimento':requerimento,'criterio':criterio,'paginator':paginator,'page_obj':requerimento, "tipo_requerimento":tipo_requerimento, 'requerimentos_professor':requerimentos_professor}
+        return render(request, 'requerimento/requerimento_list_professor.html', dados)
 
 @permission_required('appsgr.detail_requerimento',login_url='erro_permissao')
 def requerimento_detail(request, pk):

@@ -1,7 +1,6 @@
 {% extends 'base.html' %}
 {% block conteudo %}
 
-    {{ requerimento.__str__ }}
 
     <form method="POST" role="form">
         {% csrf_token %}
@@ -17,10 +16,9 @@
             <label><input type="hidden" name="{{ field.name }}" id="{{ field.name }}" value="{{ field.value }}"></label>
         {% endif %}
     {% endfor %}
-
         <input type="submit" class="btn btn-primary" value="Indiferir">
     </form>
 
-
+    { {  requerimento. }}
 
 {% endblock %}
