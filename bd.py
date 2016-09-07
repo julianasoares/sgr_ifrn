@@ -166,25 +166,25 @@ turn2.save()
 turn3.save()
 
 #Professores
-prof1 = Professor(pessoa=pes1) #Givanaldo
+prof1 = Professor(pessoa=pes1,  campus_atuante=cam1) #Givanaldo
 prof1.save()
-prof2 = Professor(pessoa=pes2) #Alvaro
+prof2 = Professor(pessoa=pes2,  campus_atuante=cam1) #Alvaro
 prof2.save()
-prof3 = Professor(pessoa=pes4) #Bruno
+prof3 = Professor(pessoa=pes4,  campus_atuante=cam1) #Bruno
 prof3.save()
-prof4 = Professor(pessoa=pes5)
+prof4 = Professor(pessoa=pes5,  campus_atuante=cam1)
 prof4.save()
-prof5 = Professor(pessoa=pes6)
+prof5 = Professor(pessoa=pes6,  campus_atuante=cam1)
 prof5.save()
-prof6 = Professor(pessoa=pes7)
+prof6 = Professor(pessoa=pes7,  campus_atuante=cam1)
 prof6.save()
-prof7 = Professor(pessoa=pes15)
+prof7 = Professor(pessoa=pes15,  campus_atuante=cam1)
 prof7.save()
-prof8 = Professor(pessoa=pes9)
+prof8 = Professor(pessoa=pes9,  campus_atuante=cam1)
 prof8.save()
-prof9 = Professor(pessoa=pes16)
+prof9 = Professor(pessoa=pes16,  campus_atuante=cam1)
 prof9.save()
-prof10 = Professor(pessoa=pes17)
+prof10 = Professor(pessoa=pes17,  campus_atuante=cam1)
 prof10.save()
 
 #Disciplinas
